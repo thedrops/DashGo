@@ -36,6 +36,7 @@ export function signOut(){
     destroyCookie(undefined,'nextauth.refreshToken')
 
     authChannel.postMessage('signOut')
+    authChannel.close();
 
     Router.push('/')
 }
@@ -51,7 +52,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
             switch (message.data){
                 case 'signOut':
                     signOut();
-                    authChannel.close();
                     break;
                 case 'signIn':
                     window.location.reload()
