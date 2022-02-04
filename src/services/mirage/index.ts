@@ -15,7 +15,6 @@ export function makeServer(){
         models: {
             user: Model.extend<Partial<User>>({})
         },
-
         factories:{
             user: Factory.extend({
                 name(i) {
@@ -29,11 +28,9 @@ export function makeServer(){
                 },
             })
         },
-
         seeds(server){
             server.createList('user', 200)
         },
-
         routes() {
             this.namespace = 'api';
             this.timing = 750;
@@ -61,6 +58,8 @@ export function makeServer(){
 
             this.namespace = '';
             this.passthrough();
+            this.shutdown()
+
         }
     })
 

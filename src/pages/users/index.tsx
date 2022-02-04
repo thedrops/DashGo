@@ -3,10 +3,11 @@ import { GetServerSideProps } from "next";
 import NextLink from "next/link";
 import { useEffect, useState } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
+import { withSSRAuth } from "../../../utils/withSSRAuth";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
-import { api } from "../../services/api";
+import { api, setupAPIClient } from "../../services/api";
 import { getUsers, useUsers } from "../../services/hooks/useUsers";
 import { queryClient } from "../../services/queryClient";
 
@@ -113,3 +114,14 @@ export default function userList(){
         </Box>
     )
 }
+export const getServerSideProps = withSSRAuth(async (ctx) => {
+    const apiClient = setupAPIClient(ctx)
+    const response = await apiClient.get('/me')
+
+    return {
+        props:{}
+    }
+},{
+    permissions: ['metrics.list'],
+    roles: ['administrator'],
+})
